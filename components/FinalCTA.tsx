@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight } from 'lucide-react';
+import WaitlistForm from './WaitlistForm';
 
 const FinalCTA: React.FC = () => {
   return (
@@ -12,18 +12,8 @@ const FinalCTA: React.FC = () => {
         <p className="text-xl text-slate-500 mb-10">
           Join the waiting list for early access to the Arcgent platform.
         </p>
-        
-        <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-          <input 
-            type="email" 
-            placeholder="Enter your email" 
-            className="flex-1 px-5 py-3.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:outline-none"
-          />
-          <button type="submit" className="bg-brand-600 hover:bg-brand-700 text-white px-8 py-3.5 rounded-lg font-medium transition-colors flex items-center justify-center gap-2">
-            Join Waiting List
-            <ArrowRight className="w-4 h-4" />
-          </button>
-        </form>
+
+        <WaitlistForm />
       </div>
     </section>
   );
