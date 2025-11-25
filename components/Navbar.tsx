@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const location = useLocation();
-  const isHome = location.pathname === '/';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -41,7 +38,7 @@ const Navbar: React.FC = () => {
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2 font-bold text-xl tracking-tight text-slate-900">
+        <div className="flex items-center gap-2 font-bold text-xl tracking-tight text-slate-900">
           <svg
             viewBox="0 0 100 100"
             fill="none"
@@ -52,7 +49,7 @@ const Navbar: React.FC = () => {
             <path d="M22 82 L46 25" stroke="currentColor" strokeWidth="10" strokeLinecap="round" />
             <path d="M54 25 L78 82" stroke="currentColor" strokeWidth="10" strokeLinecap="round" />
             <path d="M25 88 L75 88" stroke="currentColor" strokeWidth="10" strokeLinecap="round" />
-
+            
             {/* Connecting Lines */}
             <path d="M50 45 L50 25" stroke="currentColor" strokeWidth="2" opacity="0.5" />
             <path d="M38 68 L25 88" stroke="currentColor" strokeWidth="2" opacity="0.5" />
@@ -62,29 +59,17 @@ const Navbar: React.FC = () => {
             <path d="M50 45 L62 68 H38 Z" fill="currentColor" />
           </svg>
           <span>Arcgent</span>
-        </Link>
+        </div>
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600">
-          <Link to="/blog" className="hover:text-slate-900 transition-colors">
-            Blog
-          </Link>
-          {isHome ? (
-            <a
-              href="#waitlist"
-              onClick={scrollToWaitlist}
-              className="bg-slate-900 text-white px-4 py-2 rounded-full hover:bg-slate-800 transition-colors"
-            >
-              Join Waitlist
-            </a>
-          ) : (
-            <Link
-              to="/#waitlist"
-              className="bg-slate-900 text-white px-4 py-2 rounded-full hover:bg-slate-800 transition-colors"
-            >
-              Join Waitlist
-            </Link>
-          )}
+          <a
+            href="#waitlist"
+            onClick={scrollToWaitlist}
+            className="bg-slate-900 text-white px-4 py-2 rounded-full hover:bg-slate-800 transition-colors"
+          >
+            Join Waitlist
+          </a>
         </div>
 
         {/* Mobile Toggle */}
@@ -99,18 +84,7 @@ const Navbar: React.FC = () => {
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div className="absolute top-full left-0 right-0 bg-white border-b border-slate-200 p-6 flex flex-col gap-4 md:hidden shadow-xl">
-          <Link to="/blog" className="text-lg font-medium text-slate-600 hover:text-slate-900" onClick={() => setMobileMenuOpen(false)}>
-            Blog
-          </Link>
-          {isHome ? (
-            <a href="#waitlist" className="text-lg font-medium text-brand-600" onClick={scrollToWaitlist}>
-              Join Waitlist
-            </a>
-          ) : (
-            <Link to="/#waitlist" className="text-lg font-medium text-brand-600" onClick={() => setMobileMenuOpen(false)}>
-              Join Waitlist
-            </Link>
-          )}
+          <a href="#waitlist" className="text-lg font-medium text-brand-600" onClick={scrollToWaitlist}>Join Waitlist</a>
         </div>
       )}
     </nav>
