@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Download } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -13,9 +13,6 @@ const Navbar: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handlePrint = () => {
-    window.print();
-  };
 
   return (
     <nav
@@ -51,14 +48,6 @@ const Navbar: React.FC = () => {
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600">
-          <button 
-             onClick={handlePrint}
-             className="text-slate-500 hover:text-brand-600 transition-colors flex items-center gap-2"
-             title="Save as PDF"
-          >
-            <Download className="w-4 h-4" />
-            <span className="hidden lg:inline">PDF</span>
-          </button>
           <a
             href="#waitlist"
             className="bg-slate-900 text-white px-4 py-2 rounded-full hover:bg-slate-800 transition-colors"
@@ -79,9 +68,6 @@ const Navbar: React.FC = () => {
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div className="absolute top-full left-0 right-0 bg-white border-b border-slate-200 p-6 flex flex-col gap-4 md:hidden shadow-xl">
-          <button onClick={handlePrint} className="flex items-center gap-2 text-lg font-medium text-slate-600">
-             <Download className="w-5 h-5" /> Download PDF
-          </button>
           <a href="#waitlist" className="text-lg font-medium text-brand-600" onClick={() => setMobileMenuOpen(false)}>Join Waitlist</a>
         </div>
       )}
