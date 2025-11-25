@@ -1,7 +1,48 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ArrowRight, Sparkles, LayoutGrid, FileText, Activity, Bot, Clock } from 'lucide-react';
+import { supabase } from '../lib/supabase';
 
 const Hero: React.FC = () => {
+  const [email, setEmail] = useState('');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [message, setMessage] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!email || !email.includes('@')) {
+      setStatus('error');
+      setMessage('Please enter a valid email address');
+      return;
+    }
+
+    setStatus('loading');
+    setMessage('');
+
+    try {
+      const { error } = await supabase
+        .from('waitlist')
+        .insert([{ email }]);
+
+      if (error) {
+        if (error.code === '23505') {
+          setStatus('error');
+          setMessage('This email is already on the waitlist');
+        } else {
+          throw error;
+        }
+      } else {
+        setStatus('success');
+        setMessage('Successfully joined the waitlist!');
+        setEmail('');
+      }
+    } catch (error) {
+      setStatus('error');
+      setMessage('Something went wrong. Please try again.');
+      console.error('Error joining waitlist:', error);
+    }
+  };
+
   return (
     <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden">
       
@@ -30,20 +71,36 @@ const Hero: React.FC = () => {
         </p>
 
         {/* CTA */}
-        <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+        <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
           <div className="relative w-full sm:w-auto group">
-            <input 
-                type="email" 
-                placeholder="work@email.com" 
-                className="w-full sm:w-80 px-5 py-3.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all shadow-sm"
+            <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="work@email.com"
+                disabled={status === 'loading'}
+                className="w-full sm:w-80 px-5 py-3.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                required
             />
           </div>
-          <button className="w-full sm:w-auto px-8 py-3.5 rounded-lg bg-slate-900 text-white font-medium hover:bg-slate-800 transition-all flex items-center justify-center gap-2 group shadow-lg shadow-brand-900/20">
-            Join Waitlist
+          <button
+            type="submit"
+            disabled={status === 'loading'}
+            className="w-full sm:w-auto px-8 py-3.5 rounded-lg bg-slate-900 text-white font-medium hover:bg-slate-800 transition-all flex items-center justify-center gap-2 group shadow-lg shadow-brand-900/20 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {status === 'loading' ? 'Joining...' : 'Join Waitlist'}
             <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
           </button>
-        </div>
-        
+        </form>
+
+        {message && (
+          <p className={`mt-4 text-sm ${
+            status === 'success' ? 'text-green-600' : 'text-red-600'
+          }`}>
+            {message}
+          </p>
+        )}
+
         <p className="mt-4 text-xs text-slate-400">No credit card required. Request early access.</p>
 
         {/* Hero Dashboard Mockup */}
