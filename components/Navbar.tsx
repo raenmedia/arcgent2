@@ -13,6 +13,21 @@ const Navbar: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const scrollToWaitlist = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const waitlistSection = document.getElementById('waitlist');
+    if (waitlistSection) {
+      const offset = 80;
+      const elementPosition = waitlistSection.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+    setMobileMenuOpen(false);
+  };
+
 
   return (
     <nav
@@ -50,6 +65,7 @@ const Navbar: React.FC = () => {
         <div className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600">
           <a
             href="#waitlist"
+            onClick={scrollToWaitlist}
             className="bg-slate-900 text-white px-4 py-2 rounded-full hover:bg-slate-800 transition-colors"
           >
             Join Waitlist
@@ -68,7 +84,7 @@ const Navbar: React.FC = () => {
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div className="absolute top-full left-0 right-0 bg-white border-b border-slate-200 p-6 flex flex-col gap-4 md:hidden shadow-xl">
-          <a href="#waitlist" className="text-lg font-medium text-brand-600" onClick={() => setMobileMenuOpen(false)}>Join Waitlist</a>
+          <a href="#waitlist" className="text-lg font-medium text-brand-600" onClick={scrollToWaitlist}>Join Waitlist</a>
         </div>
       )}
     </nav>
