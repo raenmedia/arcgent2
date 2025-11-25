@@ -67,7 +67,7 @@ const Hero: React.FC = () => {
 
         {/* Subheadline */}
         <p className="text-lg md:text-xl text-slate-500 mb-10 max-w-2xl leading-relaxed">
-          Arcgent turns messy operations into clear, structured specifications. Design, validate, and optimize your AI agents before you build them.
+          Arcgent turns messy processes into clear Standard Operation Procedures, so you can design, check, improve, and manage your AI agents before you build them.
         </p>
 
         {/* CTA */}
